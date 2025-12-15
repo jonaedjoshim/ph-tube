@@ -11,7 +11,17 @@ function loadCategories() {
 }
 // funtion for display the fetched data
 function displayCategories(categories) {
-    console.log(categories)
+    // get the container where i will display fetched data
+    const categoriesContainer = document.getElementById("categoriesContainer")
+    // now i have to make a loop for get separate data => {category_id: '1001', category: 'Music'}
+    for (let category of categories) {
+        // now creat element for display the data
+        const categoryDiv = document.createElement("div")
+        categoryDiv.innerHTML = `<button class="btn font-medium rounded-lg bg-[#25252515] text-[#25252570] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
+        // append the loop element inside the categoryDiv
+        categoriesContainer.append(categoryDiv)
+    }
+
 }
 
 loadCategories()
