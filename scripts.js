@@ -1,21 +1,21 @@
-// funtion for load categories section data from api
+// function for load categories section data from api
 function loadCategories() {
     // fetching data for button music, comedy, drawing
     fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
         // got a promise and convert it to json
-        .then((response) => response.json())
-        // sending converted data into another funtion
+        .then((response) => (response.json()))
+        // sending converted data into another function
         .then((data) => displayCategories(data.categories))
         // using catch function to find error and console it
-        .catch(error => { console.error('Data fetching error:', error) })
+        .catch((error) => { console.error('Data fetching error:', error) })
 }
-// funtion for display the fetched data
+// function for display the fetched data
 function displayCategories(categories) {
     // get the container where i will display fetched data
     const categoriesContainer = document.getElementById("categoriesContainer")
     // now i have to make a loop for get separate data => {category_id: '1001', category: 'Music'}
     for (let category of categories) {
-        // now creat element for display the data
+        // now create element for display the data
         const categoryDiv = document.createElement("div")
         categoryDiv.innerHTML = `<button class="btn font-medium rounded-lg bg-[#25252515] text-[#25252570] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
         // append the loop element inside the categoryDiv
@@ -24,4 +24,49 @@ function displayCategories(categories) {
 
 }
 
+// function for load videos section from api 
+function loadVideos() {
+    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+        .then((response) => (response.json()))
+        .then((data) => displayVideos(data.videos))
+
+}
+// use arrow function for smoothness --- const displayVideos = (videos) => {};
+function displayVideos(videos) {
+    const videosContainer = document.getElementById("videosContainer")
+    // we can use foreach if we use arrow function. videos.forEach(video=>) {}; it will work as a function 
+    for (let video of videos) {
+        const videoDiv = document.createElement("div")
+        videoDiv.innerHTML = `
+        <div class="card">
+            <figure class="relative">
+                <img src="${video.thumbnail}" alt="thumbnail" class="object-cover w-full h-52" />
+                <p class="absolute bottom-3 right-3 bg-[#17171775] p-1 rounded text-white text-xs ">3hrs 56 min ago</p>
+            </figure>
+            <div class="p-2 mt-5 flex gap-3 ">
+                <div class="avatar">
+                    <div class="w-10 h-10 mt-2 rounded-full">
+                        <img src="${video.authors[0].profile_picture}" />
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-[#171717] text-lg font-bold">${video.title}
+                    </h4>
+                    <div class="flex gap-2 items-center">
+                        <p class="text-[#17171770]">${video.authors[0].profile_name}</p>
+                        <img
+                            src="https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png" alt="verified_badge"
+                            class="size-5">
+                    </div>
+                    <p class="text-[#17171770]">${video.others.views} views</p>
+                </div>
+            </div>
+        </div>
+        
+        `
+        videosContainer.append(videoDiv)
+    }
+}
+
 loadCategories()
+loadVideos()

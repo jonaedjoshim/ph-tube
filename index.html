@@ -22,13 +22,21 @@
         <nav
             class="flex flex-col gap-6 lg:flex-row justify-between pt-8 lg:pt-16 pb-6 lg:pb-8 border-b border-[#17171720]">
             <div><a href=""><img src="assets/Logo.png" alt="ph tube logo"></a></div>
-            <div><button class="btn bg-[#25252520] font-medium text-lg rounded-lg hover:shadow-md">Sort by view</button></div>
-            <div><button class="btn bg-[#FF1F3D] font-medium text-lg text-white rounded-lg hover:shadow-md">Blog</button></div>
+            <div><button class="btn bg-[#25252520] font-medium text-lg rounded-lg hover:shadow-md">Sort by view</button>
+            </div>
+            <div>
+                <button class="btn bg-[#FF1F3D] font-medium text-lg text-white rounded-lg hover:shadow-md">Blog
+                </button>
+            </div>
         </nav>
     </header>
-    <nav id="categoriesContainer" class="pt-6 lg:pt-8 flex flex-col gap-6 lg:flex-row justify-center ">
-        <div><button class="btn bg-[#FF1F3D] font-medium text-lg text-white rounded-lg hover:shadow-md">All</button></div>
+    <nav id="categoriesContainer" class="pt-6 lg:pt-8 flex flex-1 gap-4 lg:gap-6 justify-center ">
+        <div><button class="btn bg-[#FF1F3D] font-medium text-lg text-white rounded-lg hover:shadow-md">All</button>
+        </div>
     </nav>
+    <section id="videosContainer" class="gap-6 grid lg:grid-cols-4 mt-6 lg:mt-10">
+        <!-- added from js file by fetching API data -->
+    </section>
     <script src="scripts.js"></script>
 </body>
 
