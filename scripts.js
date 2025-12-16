@@ -9,6 +9,24 @@ function loadCategories() {
         // using catch function to find error and console it
         .catch((error) => { console.error('Data fetching error:', error) })
 }
+
+// function for load videos section from api 
+function loadVideos() {
+    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+        .then((response) => (response.json()))
+        .then((data) => displayVideos(data.videos))
+        .catch((error) => { console.error('Data fetching error:', error) })
+}
+
+// function for load category vedios data 
+function loadCategoryVedios(id) {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
+    fetch(url)
+        .then((response) => (response.json()))
+        .then((data) => displayVideos(data.category))
+        .catch((error) => { console.error('Data fetching error:', error) })
+}
+
 // function for display the fetched data
 function displayCategories(categories) {
     // get the container where i will display fetched data
@@ -17,23 +35,16 @@ function displayCategories(categories) {
     for (let category of categories) {
         // now create element for display the data
         const categoryDiv = document.createElement("div")
-        categoryDiv.innerHTML = `<button class="btn font-medium rounded-lg bg-[#25252515] text-[#25252570] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
+        categoryDiv.innerHTML = `<button onclick="loadCategoryVedios(${category.category_id})" class="btn font-medium rounded-lg bg-[#25252515] text-[#25252570] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
         // append the loop element inside the categoryDiv
         categoriesContainer.append(categoryDiv)
     }
-
 }
 
-// function for load videos section from api 
-function loadVideos() {
-    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
-        .then((response) => (response.json()))
-        .then((data) => displayVideos(data.videos))
-
-}
 // use arrow function for smoothness --- const displayVideos = (videos) => {};
 function displayVideos(videos) {
     const videosContainer = document.getElementById("videosContainer")
+    videosContainer.innerHTML = ""
     // we can use foreach if we use arrow function. videos.forEach(video=>) {}; it will work as a function 
     for (let video of videos) {
         const videoDiv = document.createElement("div")
@@ -69,4 +80,3 @@ function displayVideos(videos) {
 }
 
 loadCategories()
-loadVideos()
