@@ -1,3 +1,11 @@
+// remove active from buttons
+function removeActive() {
+    const activeButtons = document.getElementsByClassName("active")
+    for (let button of activeButtons) {
+        button.classList.remove("active")
+    }
+}
+
 // function for load categories section data from api
 function loadCategories() {
     // fetching data for button music, comedy, drawing
@@ -14,7 +22,11 @@ function loadCategories() {
 function loadVideos() {
     fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
         .then((response) => (response.json()))
-        .then((data) => displayVideos(data.videos))
+        .then((data) => {
+            removeActive()
+            document.getElementById("allBtn").classList.add("active")
+            displayVideos(data.videos)
+        })
         .catch((error) => { console.error('Data fetching error:', error) })
 }
 
@@ -24,6 +36,7 @@ function loadCategoryVideos(id) {
     fetch(url)
         .then((response) => (response.json()))
         .then((data) => {
+            removeActive() //after that function there will be no active class in btn
             const clickedButton = document.getElementById(`${id}`)
             clickedButton.classList.add("active")
             displayVideos(data.category)
@@ -62,7 +75,7 @@ function displayVideos(videos) {
     for (let video of videos) {
         const videoDiv = document.createElement("div")
         videoDiv.innerHTML = `
-        <div class="card">
+        <div class="card cursor-pointer">
             <figure class="relative">
                 <img src="${video.thumbnail}" alt="thumbnail" class="object-cover w-full h-52" />
                 <p class="absolute bottom-3 right-3 bg-[#17171775] p-1 rounded text-white text-xs ">3hrs 56 min ago</p>
