@@ -18,12 +18,16 @@ function loadVideos() {
         .catch((error) => { console.error('Data fetching error:', error) })
 }
 
-// function for load category vedios data 
-function loadCategoryVedios(id) {
+// function for load category Videos data 
+function loadCategoryVideos(id) {
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
     fetch(url)
         .then((response) => (response.json()))
-        .then((data) => displayVideos(data.category))
+        .then((data) => {
+            const clickedButton = document.getElementById(`${id}`)
+            clickedButton.classList.add("active")
+            displayVideos(data.category)
+        })
         .catch((error) => { console.error('Data fetching error:', error) })
 }
 
@@ -35,7 +39,7 @@ function displayCategories(categories) {
     for (let category of categories) {
         // now create element for display the data
         const categoryDiv = document.createElement("div")
-        categoryDiv.innerHTML = `<button onclick="loadCategoryVedios(${category.category_id})" class="btn font-medium rounded-lg bg-[#25252515] text-[#25252570] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
+        categoryDiv.innerHTML = `<button id="${category.category_id}" onclick="loadCategoryVideos(${category.category_id})" class="btn font-medium rounded-lg bg-[#25252515] text-[#252525] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md">${category.category}</button>`
         // append the loop element inside the categoryDiv
         categoriesContainer.append(categoryDiv)
     }
@@ -45,6 +49,15 @@ function displayCategories(categories) {
 function displayVideos(videos) {
     const videosContainer = document.getElementById("videosContainer")
     videosContainer.innerHTML = ""
+    if (videos.length == 0) {
+        videosContainer.innerHTML = `
+        <div class="col-span-full justify-center items-center text-center mt-6 lg:mt-16 py-5">
+            <img src="assets/Icon.png" alt="no videos icon" class="size-32 mx-auto mb-8">
+            <h2 class="text-[#171717] text-3xl font-bold">Oops!! Sorry, There is no <br> content here</h2>
+         </div>
+         `
+        return
+    }
     // we can use foreach if we use arrow function. videos.forEach(video=>) {}; it will work as a function 
     for (let video of videos) {
         const videoDiv = document.createElement("div")
