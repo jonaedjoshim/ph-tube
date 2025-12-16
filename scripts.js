@@ -44,6 +44,32 @@ function loadCategoryVideos(id) {
         .catch((error) => { console.error('Data fetching error:', error) })
 }
 
+// function for load video details
+function loadVideoDetails(videoId) {
+    const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+    fetch(url)
+        .then((response) => (response.json()))
+        .then((data) => displayVideoDetails(data.video))
+        .catch((error) => { console.error('Data fetching error:', error) })
+}
+// display VideoDetails 
+function displayVideoDetails(video) {
+    document.getElementById("videoDetails").showModal()
+    const detailsContainer = document.getElementById("detailsContainer")
+    detailsContainer.innerHTML =
+        `
+        <div class="card image-full shadow-sm">
+        <figure>
+            <img src="${video.thumbnail}" alt="" class="contain"/>
+        </figure>
+        <div class="card-body">
+            <h2 class="card-title">${video.title}</h2>
+            <p>${video.description}</p>
+        </div>
+    </div>
+`
+}
+
 // function for display the fetched data
 function displayCategories(categories) {
     // get the container where i will display fetched data
@@ -98,6 +124,7 @@ function displayVideos(videos) {
                     <p class="text-[#17171770]">${video.others.views} views</p>
                 </div>
             </div>
+           <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block"> Show Details </button>
         </div>
         
         `
