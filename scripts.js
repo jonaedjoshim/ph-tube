@@ -1,3 +1,13 @@
+// show and hide loading
+function showLoader() {
+    document.getElementById("loader").classList.remove("hidden");
+    document.getElementById("videosContainer").classList.add("hidden");
+};
+function hideLoader() {
+    document.getElementById("loader").classList.add("hidden");
+    document.getElementById("videosContainer").classList.remove("hidden");
+};
+
 // remove active from buttons
 function removeActive() {
     const activeButtons = document.getElementsByClassName("active")
@@ -19,8 +29,9 @@ function loadCategories() {
 }
 
 // function for load videos section from api 
-function loadVideos() {
-    fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
+function loadVideos(search = "") {
+    showLoader()
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${search}`)
         .then((response) => (response.json()))
         .then((data) => {
             removeActive()
@@ -32,6 +43,7 @@ function loadVideos() {
 
 // function for load category Videos data 
 function loadCategoryVideos(id) {
+    showLoader()
     const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`
     fetch(url)
         .then((response) => (response.json()))
@@ -95,6 +107,7 @@ function displayVideos(videos) {
             <h2 class="text-[#171717] text-3xl font-bold">Oops!! Sorry, There is no <br> content here</h2>
          </div>
          `
+        hideLoader()
         return
     }
     // we can use foreach if we use arrow function. videos.forEach(video=>) {}; it will work as a function 
@@ -115,21 +128,27 @@ function displayVideos(videos) {
                 <div>
                     <h4 class="text-[#171717] text-lg font-bold">${video.title}
                     </h4>
-                    <div class="flex gap-2 items-center">
-                        <p class="text-[#17171770]">${video.authors[0].profile_name}</p>
-                        <img
+                    <div>
+                        <p class="text-[#17171770] flex gap-2 items-center">
+                        ${video.authors[0].profile_name}
+                        ${video.authors[0].verified == true ? `<img
                             src="https://img.icons8.com/?size=48&id=98A4yZTt9abw&format=png" alt="verified_badge"
-                            class="size-5">
+                            class="size-5">` : ``}
+                        </p>
                     </div>
                     <p class="text-[#17171770]">${video.others.views} views</p>
                 </div>
             </div>
-           <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block"> Show Details </button>
+           <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block  font-medium rounded-lg bg-[#25252515] text-[#252525] hover:text-white hover:bg-[#FF1F3D] hover:shadow-md"> Show Details </button>
         </div>
         
         `
         videosContainer.append(videoDiv)
     }
+    hideLoader()
 }
-
+document.getElementById("search").addEventListener("keyup", (element) => {
+    const input = element.target.value // what is target?
+    loadVideos(input)
+})
 loadCategories()
